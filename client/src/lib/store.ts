@@ -42,8 +42,7 @@ interface Actions {
 const DEFAULT_ZONES: Zone[] = [
   { id: '1', ianaName: 'America/Los_Angeles', label: 'San Francisco' },
   { id: '2', ianaName: 'America/New_York', label: 'New York' },
-  { id: '3', ianaName: 'Europe/London', label: 'London' },
-  { id: '4', ianaName: 'Asia/Tokyo', label: 'Tokyo' },
+  { id: '3', ianaName: 'Europe/Paris', label: 'Paris' },
 ];
 
 export const useStore = create<AppState & Actions>()(
