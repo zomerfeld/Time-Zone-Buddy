@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "FIO Clone",
+  "name": "Time Zone Planner",
   "version": "1.0.0",
-  "description": "A privacy-preserving, local-first time zone planner and new tab page.",
+  "description": "See time across cities with color-coded cards and scroll to plan meetings at the perfect hour.",
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
