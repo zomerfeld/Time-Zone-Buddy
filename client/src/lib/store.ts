@@ -41,8 +41,9 @@ interface Actions {
 
 const DEFAULT_ZONES: Zone[] = [
   { id: '1', ianaName: 'America/Los_Angeles', label: 'San Francisco' },
-  { id: '2', ianaName: 'America/New_York', label: 'New York' },
-  { id: '3', ianaName: 'Europe/Paris', label: 'Paris' },
+  { id: '2', ianaName: 'America/New_York', label: 'Philadelphia' },
+  { id: '3', ianaName: 'America/Sao_Paulo', label: 'São Paulo' },
+  { id: '4', ianaName: 'Asia/Shanghai', label: 'Shanghai' },
 ];
 
 // Get UTC offset in minutes for a timezone
