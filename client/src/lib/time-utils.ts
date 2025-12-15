@@ -18,24 +18,18 @@ export function formatDateDisplay(date: Date) {
   return format(date, 'EEE, MMM d');
 }
 
-export function getTimeOffset(homeTime: Date, zoneTime: Date) {
-  // Round to nearest minute to avoid blinking from second-level differences
-  const homeMinutes = homeTime.getHours() * 60 + homeTime.getMinutes();
-  const zoneMinutes = zoneTime.getHours() * 60 + zoneTime.getMinutes();
-  
-  // Handle day boundary: if dates are different, adjust
-  const homeDateStr = homeTime.toDateString();
-  const zoneDateStr = zoneTime.toDateString();
-  let diffMinutes = zoneMinutes - homeMinutes;
-  
-  if (homeDateStr !== zoneDateStr) {
-    // Zone is on a different day
-    if (zoneTime > homeTime) {
-      diffMinutes = (24 * 60 - homeMinutes) + zoneMinutes;
-    } else {
-      diffMinutes = -((24 * 60 - zoneMinutes) + homeMinutes);
-    }
-  }
+export function getTimezoneOffsetMinutes(ianaName: string, referenceTime: Date = new Date()): number {
+  // Get the UTC offset for a timezone in minutes
+  const utcDate = new Date(referenceTime.toLocaleString('en-US', { timeZone: 'UTC' }));
+  const tzDate = new Date(referenceTime.toLocaleString('en-US', { timeZone: ianaName }));
+  return Math.round((tzDate.getTime() - utcDate.getTime()) / 60000);
+}
+
+export function getTimeOffset(homeIana: string, zoneIana: string, referenceTime: Date = new Date()) {
+  // Calculate static offset between two timezones based on their UTC offsets
+  const homeOffset = getTimezoneOffsetMinutes(homeIana, referenceTime);
+  const zoneOffset = getTimezoneOffsetMinutes(zoneIana, referenceTime);
+  const diffMinutes = zoneOffset - homeOffset;
   
   const hours = Math.floor(Math.abs(diffMinutes) / 60);
   const minutes = Math.abs(diffMinutes) % 60;

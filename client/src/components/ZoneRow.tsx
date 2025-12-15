@@ -100,8 +100,8 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, o
 
   const gradientStyle = getGradientStyle(localTime);
   const homeZone = useStore((state) => state.zones.find(z => z.id === homeZoneId));
-  const homeTime = homeZone ? getLocalTime(homeZone.ianaName, referenceTime) : referenceTime;
-  const offset = getTimeOffset(homeTime, localTime);
+  const homeIana = homeZone?.ianaName || zone.ianaName;
+  const offset = getTimeOffset(homeIana, zone.ianaName, referenceTime);
 
   return (
     <Reorder.Item
