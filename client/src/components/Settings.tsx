@@ -48,10 +48,7 @@ export const Settings = () => {
 
           <div className="space-y-4">
              <h3 className="text-sm font-medium text-slate-400 uppercase tracking-wider">About</h3>
-             <p className="text-sm text-slate-400 leading-relaxed">
-               This is a privacy-first, local-only time zone planner. No data leaves your device.
-               Designed for speed and clarity.
-             </p>
+             <p className="text-sm text-slate-400 leading-relaxed">A time zone tool with color-coded cards that show time of day at a glance. Scroll to shift time and plan across time zones.</p>
           </div>
         </div>
       </SheetContent>
