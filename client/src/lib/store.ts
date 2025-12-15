@@ -45,6 +45,24 @@ const DEFAULT_ZONES: Zone[] = [
   { id: '3', ianaName: 'Europe/Paris', label: 'Paris' },
 ];
 
+// Get UTC offset in minutes for a timezone
+const getUtcOffset = (ianaName: string): number => {
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: ianaName,
+    timeZoneName: 'shortOffset',
+  });
+  const parts = formatter.formatToParts(now);
+  const offsetPart = parts.find(p => p.type === 'timeZoneName')?.value || '';
+  // Parse offset like "GMT+5:30" or "GMT-8"
+  const match = offsetPart.match(/GMT([+-])?(\d+)?(?::(\d+))?/);
+  if (!match) return 0;
+  const sign = match[1] === '-' ? -1 : 1;
+  const hours = parseInt(match[2] || '0', 10);
+  const minutes = parseInt(match[3] || '0', 10);
+  return sign * (hours * 60 + minutes);
+};
+
 export const useStore = create<AppState & Actions>()(
   persist(
     (set) => ({
@@ -54,9 +72,24 @@ export const useStore = create<AppState & Actions>()(
       isPlanning: false,
       planningTime: null,
 
-      addZone: (ianaName, label) => set((state) => ({
-        zones: [...state.zones, { id: nanoid(), ianaName, label }]
-      })),
+      addZone: (ianaName, label) => set((state) => {
+        const newZone = { id: nanoid(), ianaName, label };
+        const newOffset = getUtcOffset(ianaName);
+        
+        // Find the right position to insert (sorted by UTC offset, west to east)
+        const zonesWithOffsets = state.zones.map(z => ({
+          zone: z,
+          offset: getUtcOffset(z.ianaName)
+        }));
+        
+        let insertIndex = zonesWithOffsets.findIndex(z => z.offset > newOffset);
+        if (insertIndex === -1) insertIndex = state.zones.length;
+        
+        const newZones = [...state.zones];
+        newZones.splice(insertIndex, 0, newZone);
+        
+        return { zones: newZones };
+      }),
 
       removeZone: (id) => set((state) => ({
         zones: state.zones.filter((z) => z.id !== id)
