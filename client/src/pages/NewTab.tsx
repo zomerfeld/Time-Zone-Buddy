@@ -45,6 +45,18 @@ export function NewTab() {
     setPlanningTime(newTime.getTime());
   };
 
+  // ESC key to reset to now
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isPlanning) {
+        handleReset();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isPlanning]);
+
   // Scroll to plan logic with accumulated delta for slower response
   const scrollAccumulator = useRef(0);
   const SCROLL_THRESHOLD = 60; // Higher = slower (pixels of scroll needed per minute change)
