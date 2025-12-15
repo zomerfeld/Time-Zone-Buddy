@@ -75,8 +75,8 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat }:
             </div>
         </div>
 
-        {/* Content Centered: Time */}
-        <div className="flex-1 flex flex-col items-center justify-center z-10">
+        {/* Content: Time (Top Aligned) */}
+        <div className="flex-1 flex flex-col items-center justify-start pt-16 md:pt-24 z-10">
           <div className="text-3xl md:text-5xl lg:text-6xl font-mono font-medium text-white drop-shadow-md tracking-tighter tabular-nums text-center">
             {formatTimeDisplay(localTime, timeFormat === '24')}
           </div>
