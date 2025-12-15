@@ -69,7 +69,7 @@ export const useStore = create<AppState & Actions>()(
     (set) => ({
       zones: DEFAULT_ZONES,
       homeZoneId: '1',
-      timeFormat: '12',
+      timeFormat: '24',
       isPlanning: false,
       planningTime: null,
 
