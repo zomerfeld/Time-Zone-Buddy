@@ -36,74 +36,67 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat }:
       value={zone}
       dragListener={false}
       dragControls={controls}
-      className="relative group h-full min-w-[320px] flex-1"
+      className="relative group h-full flex-1 min-w-0"
     >
       <div 
         className={cn(
-          "h-full flex flex-col justify-between p-8 transition-all duration-300 select-none grain-texture rounded-3xl shadow-xl",
-          "hover:brightness-105 hover:scale-[1.01] hover:shadow-2xl"
+          "h-full flex flex-col p-4 transition-all duration-300 select-none grain-texture rounded-xl shadow-lg border border-white/5",
+          "hover:brightness-110 hover:shadow-xl"
         )}
         style={gradientStyle}
       >
         {/* Top Controls (Drag + Actions) */}
-        <div className="flex justify-between items-start opacity-0 group-hover:opacity-100 transition-opacity z-20">
-          <div 
-            className="cursor-grab active:cursor-grabbing p-2 hover:bg-white/10 rounded-md"
-            onPointerDown={(e) => controls.start(e)}
-          >
-            <GripHorizontal className="w-5 h-5 opacity-70" />
-          </div>
-          
-          <div className="flex gap-1">
+        <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-20">
             {!isHome && (
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setHomeZone(zone.id)}
-                className="text-white/70 hover:text-white hover:bg-white/20 h-8 w-8"
+                className="text-white/70 hover:text-white hover:bg-white/20 h-6 w-6"
                 title="Set as Home"
               >
-                <Home className="w-4 h-4" />
+                <Home className="w-3 h-3" />
               </Button>
             )}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => removeZone(zone.id)}
-              className="text-white/70 hover:text-red-200 hover:bg-red-500/20 h-8 w-8"
+              className="text-white/70 hover:text-red-200 hover:bg-red-500/20 h-6 w-6"
               title="Remove Zone"
             >
-              <Trash2 className="w-4 h-4" />
+              <Trash2 className="w-3 h-3" />
             </Button>
-          </div>
+            <div 
+              className="cursor-grab active:cursor-grabbing p-1 hover:bg-white/10 rounded-md"
+              onPointerDown={(e) => controls.start(e)}
+            >
+              <GripHorizontal className="w-4 h-4 opacity-70" />
+            </div>
         </div>
 
-        {/* Content Centered */}
-        <div className="flex flex-col items-center justify-center gap-12 z-10 my-auto text-center">
-          
-          {/* City Name */}
-          <h2 className="text-5xl font-bold tracking-tight text-white/95 drop-shadow-sm leading-tight">
+        {/* Header: City Name & Date (Top Aligned) */}
+        <div className="flex flex-col items-center text-center mt-2 space-y-1">
+          <h2 className="text-lg md:text-xl font-bold tracking-tight text-white/95 leading-tight truncate w-full px-2">
             {zone.label}
           </h2>
-
-          {/* Time */}
-          <div className="text-5xl font-mono font-medium text-white drop-shadow-md tracking-tighter tabular-nums">
-            {formatTimeDisplay(localTime, timeFormat === '24')}
-          </div>
-
-        </div>
-
-        {/* Footer Info */}
-        <div className="flex flex-col items-center gap-2 z-10 opacity-80">
-          <div className="text-lg font-medium">
+          <div className="text-xs md:text-sm font-medium text-white/80">
             {formatDateDisplay(localTime)}
           </div>
-          {!isHome && (
-            <div className="text-sm font-semibold bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">
+        </div>
+
+        {/* Content Centered: Time */}
+        <div className="flex-1 flex flex-col items-center justify-center z-10">
+          <div className="text-3xl md:text-5xl lg:text-6xl font-mono font-medium text-white drop-shadow-md tracking-tighter tabular-nums text-center">
+            {formatTimeDisplay(localTime, timeFormat === '24')}
+          </div>
+           {!isHome && (
+            <div className="mt-2 text-xs md:text-sm font-semibold bg-white/20 px-2 py-0.5 rounded-full backdrop-blur-sm">
               {offset}
             </div>
           )}
         </div>
+
       </div>
     </Reorder.Item>
   );

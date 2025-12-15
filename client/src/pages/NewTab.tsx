@@ -59,13 +59,13 @@ export function NewTab() {
 
   return (
     <div className="h-screen bg-slate-950 flex flex-col overflow-hidden">
-      {/* Main Content Area - Horizontal Flex for Columns */}
-      <div className="flex-1 overflow-x-auto overflow-y-hidden custom-scrollbar">
+      {/* Main Content Area - Full viewport flex container */}
+      <div className="flex-1 min-h-0 w-full p-6">
         <Reorder.Group 
           axis="x" 
           values={zones} 
           onReorder={reorderZones} 
-          className="flex h-full min-w-full w-fit gap-6 px-6 py-6"
+          className="flex h-full w-full gap-4"
         >
           {zones.map((zone) => (
             <ZoneRow
@@ -79,7 +79,7 @@ export function NewTab() {
           ))}
           
           {zones.length === 0 && (
-            <div className="flex flex-col items-center justify-center w-screen h-full text-slate-500">
+            <div className="flex flex-col items-center justify-center w-full h-full text-slate-500">
               <p className="mb-4">No time zones added yet.</p>
             </div>
           )}

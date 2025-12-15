@@ -30,34 +30,35 @@ export function getTimeOffset(homeTime: Date, zoneTime: Date) {
   return `${sign}${hours}h ${minutes}m`;
 }
 
-// Pastel & Muted Palette for columns
 export function getGradientStyle(date: Date) {
   const hour = getHours(date);
   
-  // Night: 22-5 (Muted Navy/Charcoal)
+  // Original Vibrant Scheme (Rotated 180deg for columns)
+  
+  // Night: 22-5
   if (hour >= 22 || hour < 5) {
-    return { background: 'linear-gradient(180deg, #1e293b 0%, #334155 100%)', color: '#cbd5e1' };
+    return { background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)', color: '#e2e8f0' };
   }
-  // Dawn: 5-8 (Soft Lavender/Periwinkle)
+  // Dawn: 5-8
   if (hour >= 5 && hour < 8) {
-    return { background: 'linear-gradient(180deg, #6366f1 0%, #818cf8 100%)', color: '#eef2ff' };
+    return { background: 'linear-gradient(180deg, #312e81 0%, #4c1d95 100%)', color: '#e0e7ff' };
   }
-  // Morning: 8-12 (Pastel Blue)
+  // Morning: 8-12
   if (hour >= 8 && hour < 12) {
-    return { background: 'linear-gradient(180deg, #38bdf8 0%, #7dd3fc 100%)', color: '#f0f9ff' };
+    return { background: 'linear-gradient(180deg, #0369a1 0%, #0ea5e9 100%)', color: '#f0f9ff' };
   }
-  // Day: 12-17 (Soft Cyan/Teal)
+  // Day: 12-17
   if (hour >= 12 && hour < 17) {
-    return { background: 'linear-gradient(180deg, #2dd4bf 0%, #5eead4 100%)', color: '#f0fdfa' };
+    return { background: 'linear-gradient(180deg, #0284c7 0%, #22d3ee 100%)', color: '#f0f9ff' };
   }
-  // Dusk: 17-20 (Muted Peach/Coral)
+  // Dusk: 17-20
   if (hour >= 17 && hour < 20) {
-    return { background: 'linear-gradient(180deg, #fb923c 0%, #fdba74 100%)', color: '#fff7ed' };
+    return { background: 'linear-gradient(180deg, #ea580c 0%, #db2777 100%)', color: '#fff7ed' };
   }
-  // Evening: 20-22 (Muted Purple/Indigo)
+  // Evening: 20-22
   if (hour >= 20 && hour < 22) {
-    return { background: 'linear-gradient(180deg, #4f46e5 0%, #6366f1 100%)', color: '#e0e7ff' };
+    return { background: 'linear-gradient(180deg, #4c1d95 0%, #312e81 100%)', color: '#f3e8ff' };
   }
 
-  return { background: '#334155', color: '#e2e8f0' };
+  return { background: '#1e293b', color: '#fff' };
 }
