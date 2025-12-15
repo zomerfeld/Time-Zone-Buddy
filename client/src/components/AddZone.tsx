@@ -5,12 +5,35 @@ import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useStore } from '@/lib/store';
 
-const COMMON_TIMEZONES = [
-  "America/New_York", "America/Los_Angeles", "America/Chicago", "America/Denver",
-  "Europe/London", "Europe/Paris", "Europe/Berlin", "Europe/Moscow",
-  "Asia/Tokyo", "Asia/Shanghai", "Asia/Singapore", "Asia/Dubai",
-  "Australia/Sydney", "Pacific/Auckland", "UTC"
-].sort();
+const COMMON_CITIES: { ianaName: string; label: string }[] = [
+  // Americas
+  { ianaName: "America/Los_Angeles", label: "San Francisco" },
+  { ianaName: "America/Los_Angeles", label: "Los Angeles" },
+  { ianaName: "America/Denver", label: "Denver" },
+  { ianaName: "America/Chicago", label: "Chicago" },
+  { ianaName: "America/New_York", label: "New York" },
+  { ianaName: "America/New_York", label: "Philadelphia" },
+  { ianaName: "America/Toronto", label: "Toronto" },
+  { ianaName: "America/Sao_Paulo", label: "São Paulo" },
+  // Europe
+  { ianaName: "Europe/London", label: "London" },
+  { ianaName: "Europe/Paris", label: "Paris" },
+  { ianaName: "Europe/Berlin", label: "Berlin" },
+  { ianaName: "Europe/Moscow", label: "Moscow" },
+  // Middle East
+  { ianaName: "Asia/Dubai", label: "Dubai" },
+  { ianaName: "Asia/Jerusalem", label: "Tel Aviv" },
+  // Asia
+  { ianaName: "Asia/Kolkata", label: "Bangalore" },
+  { ianaName: "Asia/Kolkata", label: "Mumbai" },
+  { ianaName: "Asia/Singapore", label: "Singapore" },
+  { ianaName: "Asia/Hong_Kong", label: "Hong Kong" },
+  { ianaName: "Asia/Shanghai", label: "Shanghai" },
+  { ianaName: "Asia/Tokyo", label: "Tokyo" },
+  // Oceania
+  { ianaName: "Australia/Sydney", label: "Sydney" },
+  { ianaName: "Pacific/Auckland", label: "Auckland" },
+].sort((a, b) => a.label.localeCompare(b.label));
 
 // A more complete list could be imported from Intl.supportedValuesOf('timeZone')
 const ALL_ZONES = Intl.supportedValuesOf('timeZone');
@@ -19,11 +42,18 @@ export const AddZone = () => {
   const [open, setOpen] = useState(false);
   const addZone = useStore((state) => state.addZone);
 
-  const handleSelect = (ianaName: string) => {
+  const handleSelectCity = (ianaName: string, label: string) => {
+    addZone(ianaName, label);
+    setOpen(false);
+  };
+
+  const handleSelectZone = (ianaName: string) => {
     const city = ianaName.split('/')[1]?.replace(/_/g, ' ') || ianaName;
     addZone(ianaName, city);
     setOpen(false);
   };
+
+  const commonIanaNames = COMMON_CITIES.map(c => c.ianaName);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -32,6 +62,7 @@ export const AddZone = () => {
           variant="outline" 
           size="icon" 
           className="rounded-full w-12 h-12 bg-white/5 border-white/10 text-white/80 hover:bg-white/10 hover:text-white transition-all backdrop-blur-sm"
+          data-testid="button-add-zone"
         >
           <Plus className="w-6 h-6" />
         </Button>
@@ -41,22 +72,23 @@ export const AddZone = () => {
           <CommandInput placeholder="Search city or time zone..." className="text-white" />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
-            <CommandGroup heading="Common Zones">
-              {COMMON_TIMEZONES.map((zone) => (
+            <CommandGroup heading="Popular Cities">
+              {COMMON_CITIES.map((city) => (
                 <CommandItem
-                  key={zone}
-                  onSelect={() => handleSelect(zone)}
+                  key={`${city.ianaName}-${city.label}`}
+                  onSelect={() => handleSelectCity(city.ianaName, city.label)}
                   className="cursor-pointer aria-selected:bg-slate-800 aria-selected:text-white"
+                  data-testid={`option-city-${city.label.toLowerCase().replace(/\s/g, '-')}`}
                 >
-                  {zone}
+                  {city.label}
                 </CommandItem>
               ))}
             </CommandGroup>
-            <CommandGroup heading="All Zones">
-               {ALL_ZONES.filter(z => !COMMON_TIMEZONES.includes(z)).map((zone) => (
+            <CommandGroup heading="All Time Zones">
+               {ALL_ZONES.filter(z => !commonIanaNames.includes(z)).map((zone) => (
                 <CommandItem
                   key={zone}
-                  onSelect={() => handleSelect(zone)}
+                  onSelect={() => handleSelectZone(zone)}
                   className="cursor-pointer aria-selected:bg-slate-800 aria-selected:text-white"
                 >
                   {zone}
