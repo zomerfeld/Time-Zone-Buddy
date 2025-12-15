@@ -83,7 +83,7 @@ export function NewTab() {
           axis="x" 
           values={zones} 
           onReorder={reorderZones} 
-          className="flex h-full w-full gap-4"
+          className="flex h-full w-full gap-0"
         >
           {zones.map((zone) => (
             <ZoneRow

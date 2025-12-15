@@ -112,7 +112,7 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, o
     >
       <div 
         className={cn(
-          "h-full relative transition-all duration-300 select-none grain-texture rounded-xl shadow-lg overflow-hidden",
+          "h-full relative transition-all duration-300 select-none grain-texture overflow-hidden",
           "hover:brightness-110 hover:shadow-xl"
         )}
         style={gradientStyle}
