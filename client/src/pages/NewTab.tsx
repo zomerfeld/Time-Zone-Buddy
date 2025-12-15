@@ -52,8 +52,8 @@ export function NewTab() {
       
       e.preventDefault();
       
-      // Much slower: 5 minute increments
-      const deltaMinutes = e.deltaY > 0 ? 5 : -5;
+      // Very slow: 1 minute increments
+      const deltaMinutes = e.deltaY > 0 ? 1 : -1;
       
       if (!isPlanning) {
         togglePlanning(true);
