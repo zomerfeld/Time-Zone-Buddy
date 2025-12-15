@@ -40,6 +40,11 @@ export function NewTab() {
     setNow(new Date());
   };
 
+  const handleTimeChange = (newTime: Date) => {
+    togglePlanning(true);
+    setPlanningTime(newTime.getTime());
+  };
+
   // Scroll to plan logic with accumulated delta for slower response
   const scrollAccumulator = useRef(0);
   const SCROLL_THRESHOLD = 60; // Higher = slower (pixels of scroll needed per minute change)
@@ -88,6 +93,7 @@ export function NewTab() {
               isHome={zone.id === homeZoneId}
               isPlanning={isPlanning}
               timeFormat={timeFormat}
+              onTimeChange={handleTimeChange}
             />
           ))}
           
