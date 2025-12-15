@@ -105,7 +105,7 @@ export function NewTab() {
                variant="default" 
                size="sm"
                onClick={handleReset}
-               className="bg-white/20 hover:bg-white/30 text-white font-medium backdrop-blur-sm animate-in fade-in duration-300"
+               className="bg-blue-600 hover:bg-blue-500 text-white font-medium animate-in fade-in duration-300"
              >
                <RotateCcw className="w-4 h-4 mr-2" />
                Reset to Now
