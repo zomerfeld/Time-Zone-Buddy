@@ -42,9 +42,18 @@ interface Actions {
 const DEFAULT_ZONES: Zone[] = [
   { id: '1', ianaName: 'America/Los_Angeles', label: 'San Francisco' },
   { id: '2', ianaName: 'America/New_York', label: 'Philadelphia' },
-  { id: '3', ianaName: 'Asia/Jerusalem', label: 'Tel Aviv' },
-  { id: '4', ianaName: 'Europe/London', label: 'London' },
-  { id: '5', ianaName: 'Asia/Tokyo', label: 'Tokyo' },
+  { id: '3', ianaName: 'America/Toronto', label: 'Toronto' },
+  { id: '4', ianaName: 'America/Sao_Paulo', label: 'São Paulo' },
+  { id: '5', ianaName: 'Europe/London', label: 'London' },
+  { id: '6', ianaName: 'Europe/Paris', label: 'Paris' },
+  { id: '7', ianaName: 'Europe/Berlin', label: 'Berlin' },
+  { id: '8', ianaName: 'Asia/Dubai', label: 'Dubai' },
+  { id: '9', ianaName: 'Asia/Jerusalem', label: 'Tel Aviv' },
+  { id: '10', ianaName: 'Asia/Kolkata', label: 'Bangalore' },
+  { id: '11', ianaName: 'Asia/Singapore', label: 'Singapore' },
+  { id: '12', ianaName: 'Asia/Hong_Kong', label: 'Hong Kong' },
+  { id: '13', ianaName: 'Asia/Tokyo', label: 'Tokyo' },
+  { id: '14', ianaName: 'Australia/Sydney', label: 'Sydney' },
 ];
 
 export const useStore = create<AppState & Actions>()(
