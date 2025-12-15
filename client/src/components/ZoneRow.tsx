@@ -189,15 +189,15 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, o
         </div>
 
         {/* Footer: City Name & Date (Absolute Bottom) */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 pb-8 flex flex-col items-center text-center space-y-1 z-20 pointer-events-none">
+        <div className="absolute bottom-0 left-0 right-0 p-6 pb-8 flex flex-col items-center text-center space-y-0.5 z-20 pointer-events-none">
           <div className="flex items-center gap-1.5">
             {isHome && <Home className="w-4 h-4 text-white/90" />}
             <h2 className="text-lg md:text-xl font-bold tracking-tight text-white/95 leading-tight px-2 line-clamp-2">
               {zone.label}
             </h2>
-            <span className="text-xs font-medium text-white/60 uppercase">
-              {getTimezoneAbbreviation(zone.ianaName, referenceTime)}
-            </span>
+          </div>
+          <div className="text-xs font-medium text-white/50 uppercase">
+            {getTimezoneAbbreviation(zone.ianaName, referenceTime)}
           </div>
           <div className="text-xs md:text-sm font-medium text-white/80">
             {formatDateDisplay(localTime)}
