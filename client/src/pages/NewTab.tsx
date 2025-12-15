@@ -121,13 +121,6 @@ export function NewTab() {
       <div className="fixed top-8 right-8 z-50">
         <Settings />
       </div>
-      
-      {/* Hint for scrolling */}
-      {!isPlanning && zones.length > 0 && (
-        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 text-white/30 text-sm font-medium animate-pulse pointer-events-none">
-          Scroll to plan
-        </div>
-      )}
     </div>
   );
 }
