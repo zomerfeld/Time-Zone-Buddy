@@ -42,7 +42,7 @@ export function NewTab() {
 
   // Scroll to plan logic with accumulated delta for slower response
   const scrollAccumulator = useRef(0);
-  const SCROLL_THRESHOLD = 150; // Higher = slower (pixels of scroll needed per minute change)
+  const SCROLL_THRESHOLD = 80; // Higher = slower (pixels of scroll needed per minute change)
   
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
