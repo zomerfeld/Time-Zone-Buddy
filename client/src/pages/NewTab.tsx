@@ -98,19 +98,23 @@ export function NewTab() {
         </Reorder.Group>
       </div>
 
-      {/* Floating Action Controls - Centered */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-6 z-50">
-        {isPlanning && (
-             <Button 
-               variant="default" 
-               size="sm"
-               onClick={handleReset}
-               className="bg-blue-600 hover:bg-blue-500 text-white font-medium animate-in fade-in duration-300"
-             >
-               <RotateCcw className="w-4 h-4 mr-2" />
-               Reset to Now
-             </Button>
-        )}
+      {/* Reset Button - Centered */}
+      {isPlanning && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
+          <Button 
+            variant="default" 
+            size="sm"
+            onClick={handleReset}
+            className="bg-blue-600 hover:bg-blue-500 text-white font-medium border-0 shadow-none animate-in fade-in duration-300"
+          >
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Reset to Now
+          </Button>
+        </div>
+      )}
+      
+      {/* Add Button - Right Side */}
+      <div className="fixed bottom-8 right-8 z-50">
         <AddZone />
       </div>
 
