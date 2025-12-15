@@ -169,7 +169,7 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, o
               {(() => {
                 const timeStr = formatTimeDisplay(localTime, timeFormat === '24');
                 if (timeFormat === '24') {
-                  return <span className="text-3xl md:text-5xl lg:text-6xl font-mono font-medium">{timeStr}</span>;
+                  return <span className="text-3xl md:text-5xl lg:text-6xl font-mono font-extrabold">{timeStr}</span>;
                 }
                 const [time, period] = timeStr.split(' ');
                 return (
