@@ -40,27 +40,28 @@ export function NewTab() {
     setNow(new Date());
   };
 
-  // Scroll to plan logic
+  // Scroll to plan logic with accumulated delta for slower response
+  const scrollAccumulator = useRef(0);
+  const SCROLL_THRESHOLD = 150; // Higher = slower (pixels of scroll needed per minute change)
+  
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      // Prevent default scrolling behavior
-      // But only if we are scrolling vertically? 
-      // Actually, since we want to hijack scroll for time, we should probably prevent default.
-      // However, if the user has many zones and they overflow horizontally (though we tried to fit them),
-      // we might block horizontal scrolling if we aren't careful.
-      // The user said "fit inside the view port", so we assume no scroll needed for layout.
-      
       e.preventDefault();
       
-      // Very slow: 1 minute increments
-      const deltaMinutes = e.deltaY > 0 ? 1 : -1;
+      scrollAccumulator.current += e.deltaY;
       
-      if (!isPlanning) {
-        togglePlanning(true);
-        const currentRef = now.getTime();
-        setPlanningTime(addMinutes(new Date(currentRef), deltaMinutes).getTime());
-      } else if (planningTime) {
-        setPlanningTime(addMinutes(new Date(planningTime), deltaMinutes).getTime());
+      // Only change time when accumulated scroll exceeds threshold
+      if (Math.abs(scrollAccumulator.current) >= SCROLL_THRESHOLD) {
+        const deltaMinutes = scrollAccumulator.current > 0 ? 1 : -1;
+        scrollAccumulator.current = 0; // Reset accumulator
+        
+        if (!isPlanning) {
+          togglePlanning(true);
+          const currentRef = now.getTime();
+          setPlanningTime(addMinutes(new Date(currentRef), deltaMinutes).getTime());
+        } else if (planningTime) {
+          setPlanningTime(addMinutes(new Date(planningTime), deltaMinutes).getTime());
+        }
       }
     };
 
