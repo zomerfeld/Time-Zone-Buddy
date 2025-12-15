@@ -75,16 +75,6 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat }:
             </div>
         </div>
 
-        {/* Header: City Name & Date (Top Aligned) */}
-        <div className="flex flex-col items-center text-center mt-2 space-y-1">
-          <h2 className="text-lg md:text-xl font-bold tracking-tight text-white/95 leading-tight truncate w-full px-2">
-            {zone.label}
-          </h2>
-          <div className="text-xs md:text-sm font-medium text-white/80">
-            {formatDateDisplay(localTime)}
-          </div>
-        </div>
-
         {/* Content Centered: Time */}
         <div className="flex-1 flex flex-col items-center justify-center z-10">
           <div className="text-3xl md:text-5xl lg:text-6xl font-mono font-medium text-white drop-shadow-md tracking-tighter tabular-nums text-center">
@@ -95,6 +85,16 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat }:
               {offset}
             </div>
           )}
+        </div>
+
+        {/* Footer: City Name & Date (Bottom Aligned) */}
+        <div className="flex flex-col items-center text-center mt-2 space-y-1">
+          <h2 className="text-lg md:text-xl font-bold tracking-tight text-white/95 leading-tight truncate w-full px-2">
+            {zone.label}
+          </h2>
+          <div className="text-xs md:text-sm font-medium text-white/80">
+            {formatDateDisplay(localTime)}
+          </div>
         </div>
 
       </div>
