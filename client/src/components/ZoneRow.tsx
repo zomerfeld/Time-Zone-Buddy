@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Reorder, useDragControls } from 'framer-motion';
 import { GripHorizontal, Home, Trash2 } from 'lucide-react';
 import { Zone } from '@/lib/types';
-import { getLocalTime, formatTimeDisplay, formatDateDisplay, getTimeOffset, getGradientStyle } from '@/lib/time-utils';
+import { getLocalTime, formatTimeDisplay, formatDateDisplay, getTimeOffset, getGradientStyle, getTimezoneAbbreviation } from '@/lib/time-utils';
 import { useStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -195,6 +195,9 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, o
             <h2 className="text-lg md:text-xl font-bold tracking-tight text-white/95 leading-tight px-2 line-clamp-2">
               {zone.label}
             </h2>
+            <span className="text-xs font-medium text-white/60 uppercase">
+              {getTimezoneAbbreviation(zone.ianaName, referenceTime)}
+            </span>
           </div>
           <div className="text-xs md:text-sm font-medium text-white/80">
             {formatDateDisplay(localTime)}

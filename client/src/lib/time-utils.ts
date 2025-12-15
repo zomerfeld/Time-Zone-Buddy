@@ -18,6 +18,20 @@ export function formatDateDisplay(date: Date) {
   return format(date, 'EEE, MMM d');
 }
 
+export function getTimezoneAbbreviation(ianaName: string, referenceTime: Date = new Date()): string {
+  try {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: ianaName,
+      timeZoneName: 'short'
+    });
+    const parts = formatter.formatToParts(referenceTime);
+    const tzPart = parts.find(p => p.type === 'timeZoneName');
+    return tzPart?.value || '';
+  } catch {
+    return '';
+  }
+}
+
 export function getTimezoneOffsetMinutes(ianaName: string, referenceTime: Date = new Date()): number {
   // Get the UTC offset for a timezone in minutes
   const utcDate = new Date(referenceTime.toLocaleString('en-US', { timeZone: 'UTC' }));
