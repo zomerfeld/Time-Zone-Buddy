@@ -36,12 +36,12 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat }:
       value={zone}
       dragListener={false}
       dragControls={controls}
-      className="relative group h-full min-w-[320px] flex-1 border-r border-white/10 last:border-r-0"
+      className="relative group h-full min-w-[320px] flex-1"
     >
       <div 
         className={cn(
-          "h-full flex flex-col justify-between p-8 transition-all duration-300 select-none grain-texture",
-          "hover:brightness-105"
+          "h-full flex flex-col justify-between p-8 transition-all duration-300 select-none grain-texture rounded-3xl shadow-xl",
+          "hover:brightness-105 hover:scale-[1.01] hover:shadow-2xl"
         )}
         style={gradientStyle}
       >

@@ -65,7 +65,7 @@ export function NewTab() {
           axis="x" 
           values={zones} 
           onReorder={reorderZones} 
-          className="flex h-full min-w-full w-fit"
+          className="flex h-full min-w-full w-fit gap-6 px-6 py-6"
         >
           {zones.map((zone) => (
             <ZoneRow
