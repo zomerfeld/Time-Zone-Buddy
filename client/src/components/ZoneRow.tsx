@@ -182,7 +182,7 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, o
             </div>
           )}
            {!isHome && (
-            <div className="absolute top-1/2 mt-10 md:mt-14 text-xs md:text-sm font-semibold bg-white/20 px-2 py-0.5 rounded-full backdrop-blur-sm pointer-events-none">
+            <div className="absolute top-1/2 mt-10 md:mt-14 text-xs md:text-sm font-semibold bg-white/20 px-2 py-0.5 rounded-full backdrop-blur-sm pointer-events-none min-w-[3rem] text-center">
               {offset}
             </div>
           )}

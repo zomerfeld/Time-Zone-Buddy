@@ -19,15 +19,32 @@ export function formatDateDisplay(date: Date) {
 }
 
 export function getTimeOffset(homeTime: Date, zoneTime: Date) {
-  const diffMinutes = differenceInMinutes(zoneTime, homeTime);
+  // Round to nearest minute to avoid blinking from second-level differences
+  const homeMinutes = homeTime.getHours() * 60 + homeTime.getMinutes();
+  const zoneMinutes = zoneTime.getHours() * 60 + zoneTime.getMinutes();
+  
+  // Handle day boundary: if dates are different, adjust
+  const homeDateStr = homeTime.toDateString();
+  const zoneDateStr = zoneTime.toDateString();
+  let diffMinutes = zoneMinutes - homeMinutes;
+  
+  if (homeDateStr !== zoneDateStr) {
+    // Zone is on a different day
+    if (zoneTime > homeTime) {
+      diffMinutes = (24 * 60 - homeMinutes) + zoneMinutes;
+    } else {
+      diffMinutes = -((24 * 60 - zoneMinutes) + homeMinutes);
+    }
+  }
+  
   const hours = Math.floor(Math.abs(diffMinutes) / 60);
   const minutes = Math.abs(diffMinutes) % 60;
   
-  if (diffMinutes === 0) return 'Same time';
+  if (diffMinutes === 0) return 'Same';
   
   const sign = diffMinutes > 0 ? '+' : '-';
   if (minutes === 0) return `${sign}${hours}h`;
-  return `${sign}${hours}h ${minutes}m`;
+  return `${sign}${hours}h${minutes}m`;
 }
 
 export function getGradientStyle(date: Date) {
