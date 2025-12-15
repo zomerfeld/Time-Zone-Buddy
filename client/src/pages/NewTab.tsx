@@ -8,6 +8,18 @@ import { Button } from '@/components/ui/button';
 import { RotateCcw } from 'lucide-react';
 import { addMinutes } from 'date-fns';
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < breakpoint);
+  
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < breakpoint);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [breakpoint]);
+  
+  return isMobile;
+}
+
 export function NewTab() {
   const zones = useStore((state) => state.zones);
   const reorderZones = useStore((state) => state.reorderZones);
@@ -18,6 +30,7 @@ export function NewTab() {
   const planningTime = useStore((state) => state.planningTime);
   const setPlanningTime = useStore((state) => state.setPlanningTime);
   const resetPlanning = useStore((state) => state.resetPlanning);
+  const isMobile = useIsMobile();
 
   const [now, setNow] = useState(new Date());
   
@@ -90,12 +103,12 @@ export function NewTab() {
   return (
     <div className="h-screen bg-slate-950 flex flex-col overflow-hidden relative">
       {/* Main Content Area - Full viewport flex container */}
-      <div className="flex-1 min-h-0 w-full p-6">
+      <div className={`flex-1 min-h-0 w-full ${isMobile ? 'p-2 overflow-y-auto' : 'p-6'}`}>
         <Reorder.Group 
-          axis="x" 
+          axis={isMobile ? "y" : "x"} 
           values={zones} 
           onReorder={reorderZones} 
-          className="flex h-full w-full gap-0.5"
+          className={isMobile ? "flex flex-col h-auto w-full gap-2" : "flex h-full w-full gap-0.5"}
         >
           {zones.map((zone) => (
             <ZoneRow
@@ -106,6 +119,7 @@ export function NewTab() {
               isPlanning={isPlanning}
               timeFormat={timeFormat}
               onTimeChange={handleTimeChange}
+              isMobile={isMobile}
             />
           ))}
           

@@ -14,9 +14,10 @@ interface ZoneRowProps {
   isPlanning: boolean;
   timeFormat: '12' | '24';
   onTimeChange?: (newTime: Date) => void;
+  isMobile?: boolean;
 }
 
-export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, onTimeChange }: ZoneRowProps) => {
+export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, onTimeChange, isMobile = false }: ZoneRowProps) => {
   const controls = useDragControls();
   const removeZone = useStore((state) => state.removeZone);
   const setHomeZone = useStore((state) => state.setHomeZone);
@@ -102,6 +103,115 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, o
   const homeZone = useStore((state) => state.zones.find(z => z.id === homeZoneId));
   const homeIana = homeZone?.ianaName || zone.ianaName;
   const offset = getTimeOffset(homeIana, zone.ianaName, referenceTime);
+
+  if (isMobile) {
+    return (
+      <Reorder.Item
+        value={zone}
+        dragListener={false}
+        dragControls={controls}
+        className="relative group w-full"
+      >
+        <div 
+          className={cn(
+            "h-24 relative transition-all duration-300 select-none retro-gradient overflow-hidden rounded-lg",
+            "hover:brightness-110 hover:shadow-xl"
+          )}
+          style={gradientStyle}
+        >
+          {/* Mobile Row Layout */}
+          <div className="absolute inset-0 flex items-center justify-between px-4">
+            {/* Left: City Info */}
+            <div className="flex flex-col items-start min-w-0 flex-shrink">
+              <div className="flex items-center gap-1.5">
+                {isHome && <Home className="w-3 h-3 text-white/90 flex-shrink-0" />}
+                <h2 className="text-base font-bold tracking-tight text-white/95 leading-tight truncate max-w-[120px]">
+                  {zone.label}
+                </h2>
+              </div>
+              <div className="text-[10px] font-medium text-white/50 uppercase">
+                {getTimezoneAbbreviation(zone.ianaName, referenceTime)}
+              </div>
+              <div className="text-xs font-medium text-white/80">
+                {formatDateDisplay(localTime)}
+              </div>
+            </div>
+
+            {/* Center: Time */}
+            <div className="flex flex-col items-center">
+              {isEditing ? (
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={editValue}
+                  onChange={(e) => setEditValue(e.target.value)}
+                  onBlur={handleTimeSubmit}
+                  onKeyDown={handleKeyDown}
+                  className="text-2xl font-mono font-medium text-white bg-white/20 backdrop-blur-sm rounded-lg px-2 py-1 text-center outline-none border-2 border-white/40 focus:border-white/60 w-28"
+                  data-testid="input-time-edit"
+                />
+              ) : (
+                <div 
+                  className="flex items-baseline gap-1 text-white/75 drop-shadow-md tracking-tighter tabular-nums cursor-pointer hover:bg-white/10 rounded-lg px-2 py-1 transition-colors"
+                  onClick={handleTimeClick}
+                  data-testid="button-time-display"
+                >
+                  {(() => {
+                    const timeStr = formatTimeDisplay(localTime, timeFormat === '24');
+                    if (timeFormat === '24') {
+                      return <span className="text-2xl font-mono font-extrabold">{timeStr}</span>;
+                    }
+                    const [time, period] = timeStr.split(' ');
+                    return (
+                      <>
+                        <span className="text-2xl font-mono font-medium">{time}</span>
+                        <span className="text-sm font-medium opacity-60 uppercase">{period}</span>
+                      </>
+                    );
+                  })()}
+                </div>
+              )}
+              {!isHome && (
+                <div className="text-[10px] font-semibold bg-white/20 px-1.5 py-0.5 rounded-full backdrop-blur-sm">
+                  {offset}
+                </div>
+              )}
+            </div>
+
+            {/* Right: Controls */}
+            <div className="flex gap-1 items-center">
+              {!isHome && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setHomeZone(zone.id)}
+                  className="text-white/70 hover:text-white hover:bg-white/20 h-7 w-7"
+                  title="Set as Home"
+                >
+                  <Home className="w-3.5 h-3.5" />
+                </Button>
+              )}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => removeZone(zone.id)}
+                className="text-white/70 hover:text-red-200 hover:bg-red-500/20 h-7 w-7"
+                title="Remove Zone"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+              </Button>
+              <div 
+                className="cursor-grab active:cursor-grabbing p-1 hover:bg-white/10 rounded-md"
+                onPointerDown={(e) => controls.start(e)}
+              >
+                <GripHorizontal className="w-4 h-4 opacity-70" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Reorder.Item>
+    );
+  }
 
   return (
     <Reorder.Item
