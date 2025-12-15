@@ -1,7 +1,32 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage, PersistStorage, StorageValue } from 'zustand/middleware';
 import { Zone, AppState } from './types';
 import { nanoid } from 'nanoid';
+
+// Helper functions for cookie operations
+const getCookie = (name: string): string | null => {
+  const matches = document.cookie.match(
+    new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g, '\\$1') + '=([^;]*)')
+  );
+  return matches ? decodeURIComponent(matches[1]) : null;
+};
+
+const setCookie = (name: string, value: string): void => {
+  const expires = new Date();
+  expires.setFullYear(expires.getFullYear() + 10);
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+};
+
+const removeCookie = (name: string): void => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+};
+
+// Custom cookie storage adapter for Zustand using createJSONStorage
+const cookieStorage = createJSONStorage<any>(() => ({
+  getItem: getCookie,
+  setItem: setCookie,
+  removeItem: removeCookie,
+}));
 
 interface Actions {
   addZone: (ianaName: string, label: string) => void;
@@ -52,6 +77,7 @@ export const useStore = create<AppState & Actions>()(
     }),
     {
       name: 'fio-clone-storage',
+      storage: cookieStorage,
       partialize: (state) => ({
         zones: state.zones,
         homeZoneId: state.homeZoneId,
