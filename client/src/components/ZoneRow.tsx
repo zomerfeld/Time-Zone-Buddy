@@ -40,7 +40,7 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat }:
     >
       <div 
         className={cn(
-          "h-full flex flex-col p-4 transition-all duration-300 select-none grain-texture rounded-xl shadow-lg border border-white/5",
+          "h-full flex flex-col p-4 transition-all duration-300 select-none grain-texture rounded-xl shadow-lg",
           "hover:brightness-110 hover:shadow-xl"
         )}
         style={gradientStyle}
