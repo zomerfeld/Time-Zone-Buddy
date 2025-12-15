@@ -44,32 +44,40 @@ export function getTimeOffset(homeIana: string, zoneIana: string, referenceTime:
 export function getGradientStyle(date: Date) {
   const hour = getHours(date);
   
-  // Original Vibrant Scheme (Rotated 180deg for columns)
-  
-  // Night: 22-5
-  if (hour >= 22 || hour < 5) {
-    return { background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)', color: '#e2e8f0' };
-  }
-  // Dawn: 5-8
-  if (hour >= 5 && hour < 8) {
-    return { background: 'linear-gradient(180deg, #312e81 0%, #4c1d95 100%)', color: '#e0e7ff' };
-  }
-  // Morning: 8-12
-  if (hour >= 8 && hour < 12) {
-    return { background: 'linear-gradient(180deg, #0369a1 0%, #0ea5e9 100%)', color: '#f0f9ff' };
-  }
-  // Day: 12-17
-  if (hour >= 12 && hour < 17) {
-    return { background: 'linear-gradient(180deg, #0284c7 0%, #22d3ee 100%)', color: '#f0f9ff' };
-  }
-  // Dusk: 17-20
-  if (hour >= 17 && hour < 20) {
-    return { background: 'linear-gradient(180deg, #ea580c 0%, #db2777 100%)', color: '#fff7ed' };
-  }
-  // Evening: 20-22
-  if (hour >= 20 && hour < 22) {
-    return { background: 'linear-gradient(180deg, #4c1d95 0%, #312e81 100%)', color: '#f3e8ff' };
-  }
+  // Unique gradient for each hour to create visual distinction
+  const hourGradients: Record<number, { background: string; color: string }> = {
+    // Night: 22-5 (dark blues/blacks)
+    0: { background: 'linear-gradient(180deg, #0a0f1a 0%, #1a1f2e 100%)', color: '#e2e8f0' },
+    1: { background: 'linear-gradient(180deg, #0d1117 0%, #161b22 100%)', color: '#e2e8f0' },
+    2: { background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)', color: '#e2e8f0' },
+    3: { background: 'linear-gradient(180deg, #111827 0%, #1f2937 100%)', color: '#e2e8f0' },
+    4: { background: 'linear-gradient(180deg, #18181b 0%, #27272a 100%)', color: '#e2e8f0' },
+    // Dawn: 5-8 (purples/indigos)
+    5: { background: 'linear-gradient(180deg, #1e1b4b 0%, #312e81 100%)', color: '#e0e7ff' },
+    6: { background: 'linear-gradient(180deg, #312e81 0%, #4c1d95 100%)', color: '#e0e7ff' },
+    7: { background: 'linear-gradient(180deg, #4c1d95 0%, #6d28d9 100%)', color: '#e0e7ff' },
+    // Morning: 8-12 (sky blues)
+    8: { background: 'linear-gradient(180deg, #075985 0%, #0284c7 100%)', color: '#f0f9ff' },
+    9: { background: 'linear-gradient(180deg, #0369a1 0%, #0ea5e9 100%)', color: '#f0f9ff' },
+    10: { background: 'linear-gradient(180deg, #0284c7 0%, #38bdf8 100%)', color: '#f0f9ff' },
+    11: { background: 'linear-gradient(180deg, #0891b2 0%, #22d3ee 100%)', color: '#f0f9ff' },
+    // Day: 12-17 (bright cyans/teals)
+    12: { background: 'linear-gradient(180deg, #0d9488 0%, #2dd4bf 100%)', color: '#f0f9ff' },
+    13: { background: 'linear-gradient(180deg, #0284c7 0%, #22d3ee 100%)', color: '#f0f9ff' },
+    14: { background: 'linear-gradient(180deg, #0891b2 0%, #67e8f9 100%)', color: '#0c4a6e' },
+    15: { background: 'linear-gradient(180deg, #0e7490 0%, #06b6d4 100%)', color: '#f0f9ff' },
+    16: { background: 'linear-gradient(180deg, #0369a1 0%, #0ea5e9 100%)', color: '#f0f9ff' },
+    // Dusk: 17-20 (oranges/pinks)
+    17: { background: 'linear-gradient(180deg, #c2410c 0%, #ea580c 100%)', color: '#fff7ed' },
+    18: { background: 'linear-gradient(180deg, #ea580c 0%, #db2777 100%)', color: '#fff7ed' },
+    19: { background: 'linear-gradient(180deg, #be185d 0%, #9333ea 100%)', color: '#fdf4ff' },
+    // Evening: 20-22 (deep purples)
+    20: { background: 'linear-gradient(180deg, #6b21a8 0%, #4c1d95 100%)', color: '#f3e8ff' },
+    21: { background: 'linear-gradient(180deg, #4c1d95 0%, #312e81 100%)', color: '#f3e8ff' },
+    // Late Night
+    22: { background: 'linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%)', color: '#e2e8f0' },
+    23: { background: 'linear-gradient(180deg, #0c0a1d 0%, #1e1b4b 100%)', color: '#e2e8f0' },
+  };
 
-  return { background: '#1e293b', color: '#fff' };
+  return hourGradients[hour] || { background: '#1e293b', color: '#fff' };
 }

@@ -162,7 +162,7 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, o
             />
           ) : (
             <div 
-              className="flex items-baseline gap-1.5 text-white drop-shadow-md tracking-tighter tabular-nums text-center cursor-pointer hover:bg-white/10 rounded-lg px-2 py-1 transition-colors pointer-events-auto"
+              className="flex items-baseline gap-1.5 text-white/85 drop-shadow-md tracking-tighter tabular-nums text-center cursor-pointer hover:bg-white/10 rounded-lg px-2 py-1 transition-colors pointer-events-auto"
               onClick={handleTimeClick}
               data-testid="button-time-display"
             >
