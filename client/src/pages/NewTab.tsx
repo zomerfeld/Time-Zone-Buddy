@@ -102,10 +102,10 @@ export function NewTab() {
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-6 z-50">
         {isPlanning && (
              <Button 
-               variant="ghost" 
+               variant="default" 
                size="sm"
                onClick={handleReset}
-               className="text-white/70 hover:text-white hover:bg-white/10 font-medium animate-in fade-in duration-300"
+               className="bg-white/20 hover:bg-white/30 text-white font-medium backdrop-blur-sm animate-in fade-in duration-300"
              >
                <RotateCcw className="w-4 h-4 mr-2" />
                Reset to Now
