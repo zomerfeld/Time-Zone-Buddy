@@ -52,16 +52,14 @@ export function NewTab() {
       
       e.preventDefault();
       
+      // Much slower: 5 minute increments
+      const deltaMinutes = e.deltaY > 0 ? 5 : -5;
+      
       if (!isPlanning) {
         togglePlanning(true);
-        // Start from current time
         const currentRef = now.getTime();
-        const deltaMinutes = e.deltaY > 0 ? 15 : -15; // 15 min increments
         setPlanningTime(addMinutes(new Date(currentRef), deltaMinutes).getTime());
       } else if (planningTime) {
-        // Adjust existing planning time
-        // Use a divisor to control sensitivity
-        const deltaMinutes = e.deltaY > 0 ? 15 : -15; 
         setPlanningTime(addMinutes(new Date(planningTime), deltaMinutes).getTime());
       }
     };
@@ -100,17 +98,17 @@ export function NewTab() {
         </Reorder.Group>
       </div>
 
-      {/* Floating Action Controls */}
-      <div className="fixed bottom-8 right-8 flex flex-col gap-4 z-50">
+      {/* Floating Action Controls - Centered */}
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-6 z-50">
         {isPlanning && (
              <Button 
-               variant="default" 
-               size="icon"
+               variant="ghost" 
+               size="sm"
                onClick={handleReset}
-               className="rounded-full w-12 h-12 bg-blue-600 hover:bg-blue-500 text-white shadow-lg animate-in fade-in zoom-in duration-300"
-               title="Reset to Live Time"
+               className="text-white/70 hover:text-white hover:bg-white/10 font-medium animate-in fade-in duration-300"
              >
-               <RotateCcw className="w-5 h-5" />
+               <RotateCcw className="w-4 h-4 mr-2" />
+               Reset to Now
              </Button>
         )}
         <AddZone />
@@ -122,7 +120,7 @@ export function NewTab() {
       
       {/* Hint for scrolling */}
       {!isPlanning && zones.length > 0 && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 text-white/30 text-sm font-medium animate-pulse pointer-events-none">
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 text-white/30 text-sm font-medium animate-pulse pointer-events-none">
           Scroll to plan
         </div>
       )}
