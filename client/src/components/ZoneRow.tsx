@@ -40,13 +40,13 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat }:
     >
       <div 
         className={cn(
-          "h-full flex flex-col p-4 transition-all duration-300 select-none grain-texture rounded-xl shadow-lg",
+          "h-full relative transition-all duration-300 select-none grain-texture rounded-xl shadow-lg overflow-hidden",
           "hover:brightness-110 hover:shadow-xl"
         )}
         style={gradientStyle}
       >
         {/* Top Controls (Drag + Actions) */}
-        <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+        <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-30">
             {!isHome && (
               <Button
                 variant="ghost"
@@ -75,8 +75,8 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat }:
             </div>
         </div>
 
-        {/* Content: Time (Centered, with Offset floating below) */}
-        <div className="flex-1 flex flex-col items-center justify-center z-10 relative">
+        {/* Content: Time (Absolute Center) */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
           <div className="text-3xl md:text-5xl lg:text-6xl font-mono font-medium text-white drop-shadow-md tracking-tighter tabular-nums text-center">
             {formatTimeDisplay(localTime, timeFormat === '24')}
           </div>
@@ -87,9 +87,9 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat }:
           )}
         </div>
 
-        {/* Footer: City Name & Date (Bottom Aligned) */}
-        <div className="flex flex-col items-center text-center mt-2 space-y-1">
-          <h2 className="text-lg md:text-xl font-bold tracking-tight text-white/95 leading-tight truncate w-full px-2">
+        {/* Footer: City Name & Date (Absolute Bottom) */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 pb-8 flex flex-col items-center text-center space-y-1 z-20 pointer-events-none">
+          <h2 className="text-lg md:text-xl font-bold tracking-tight text-white/95 leading-tight w-full px-2 line-clamp-2">
             {zone.label}
           </h2>
           <div className="text-xs md:text-sm font-medium text-white/80">
