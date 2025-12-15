@@ -58,10 +58,15 @@ export function NewTab() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col">
-      {/* Main Content Area - Full viewport height minus footer */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar">
-        <Reorder.Group axis="y" values={zones} onReorder={reorderZones} className="min-h-full">
+    <div className="h-screen bg-slate-950 flex flex-col overflow-hidden">
+      {/* Main Content Area - Horizontal Flex for Columns */}
+      <div className="flex-1 overflow-x-auto overflow-y-hidden custom-scrollbar">
+        <Reorder.Group 
+          axis="x" 
+          values={zones} 
+          onReorder={reorderZones} 
+          className="flex h-full min-w-full w-fit"
+        >
           {zones.map((zone) => (
             <ZoneRow
               key={zone.id}
@@ -72,17 +77,17 @@ export function NewTab() {
               timeFormat={timeFormat}
             />
           ))}
+          
+          {zones.length === 0 && (
+            <div className="flex flex-col items-center justify-center w-screen h-full text-slate-500">
+              <p className="mb-4">No time zones added yet.</p>
+            </div>
+          )}
         </Reorder.Group>
-        
-        {zones.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-[50vh] text-slate-500">
-            <p className="mb-4">No time zones added yet.</p>
-          </div>
-        )}
       </div>
 
       {/* Floating Action Controls */}
-      <div className="fixed bottom-8 right-8 flex flex-col gap-4 z-50">
+      <div className="fixed bottom-24 right-8 flex flex-col gap-4 z-50">
         <AddZone />
       </div>
 
@@ -91,7 +96,7 @@ export function NewTab() {
       </div>
 
       {/* Planning Slider Footer */}
-      <div className="sticky bottom-0 bg-slate-900/80 backdrop-blur-md border-t border-white/10 p-4 z-40">
+      <div className="sticky bottom-0 bg-slate-900/90 backdrop-blur-md border-t border-white/10 p-6 z-40">
         <div className="max-w-4xl mx-auto flex items-center gap-6">
           <div className="flex-1">
              <Slider
@@ -112,7 +117,7 @@ export function NewTab() {
                className="gap-2 bg-blue-600 border-transparent hover:bg-blue-500 text-white"
              >
                <RotateCcw className="w-4 h-4" />
-               Reset to Now
+               Reset
              </Button>
           )}
           

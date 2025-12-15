@@ -1,5 +1,5 @@
 import { format, toZonedTime } from 'date-fns-tz';
-import { differenceInHours, differenceInMinutes, getHours } from 'date-fns';
+import { differenceInMinutes, getHours } from 'date-fns';
 
 export function getLocalTime(ianaName: string, referenceTime: Date = new Date()) {
   try {
@@ -30,58 +30,34 @@ export function getTimeOffset(homeTime: Date, zoneTime: Date) {
   return `${sign}${hours}h ${minutes}m`;
 }
 
-export function getGradientClass(date: Date) {
-  const hour = getHours(date);
-  
-  // Night: 22-5 (10pm - 5am)
-  if (hour >= 22 || hour < 5) return 'from-slate-900 to-slate-800 border-l-slate-500';
-  
-  // Dawn: 5-8 (5am - 8am)
-  if (hour >= 5 && hour < 8) return 'from-indigo-900 to-purple-800 border-l-indigo-400';
-  
-  // Morning: 8-11 (8am - 11am)
-  if (hour >= 8 && hour < 12) return 'from-blue-600 to-sky-400 border-l-sky-200';
-  
-  // Day: 12-17 (12pm - 5pm)
-  if (hour >= 12 && hour < 17) return 'from-sky-500 to-cyan-400 border-l-cyan-200';
-  
-  // Dusk: 17-20 (5pm - 8pm)
-  if (hour >= 17 && hour < 20) return 'from-orange-500 to-pink-500 border-l-orange-200';
-  
-  // Evening: 20-22 (8pm - 10pm)
-  if (hour >= 20 && hour < 22) return 'from-purple-900 to-indigo-900 border-l-purple-400';
-  
-  return 'from-slate-900 to-slate-800'; // Fallback
-}
-
+// Pastel & Muted Palette for columns
 export function getGradientStyle(date: Date) {
   const hour = getHours(date);
-  // Using more sophisticated gradients for the rows
   
-  // Night: 22-5
+  // Night: 22-5 (Muted Navy/Charcoal)
   if (hour >= 22 || hour < 5) {
-    return { background: 'linear-gradient(90deg, #0f172a 0%, #1e293b 100%)', color: '#e2e8f0' };
+    return { background: 'linear-gradient(180deg, #1e293b 0%, #334155 100%)', color: '#cbd5e1' };
   }
-  // Dawn: 5-8
+  // Dawn: 5-8 (Soft Lavender/Periwinkle)
   if (hour >= 5 && hour < 8) {
-    return { background: 'linear-gradient(90deg, #312e81 0%, #4c1d95 100%)', color: '#e0e7ff' };
+    return { background: 'linear-gradient(180deg, #6366f1 0%, #818cf8 100%)', color: '#eef2ff' };
   }
-  // Morning: 8-12
+  // Morning: 8-12 (Pastel Blue)
   if (hour >= 8 && hour < 12) {
-    return { background: 'linear-gradient(90deg, #0369a1 0%, #0ea5e9 100%)', color: '#f0f9ff' };
+    return { background: 'linear-gradient(180deg, #38bdf8 0%, #7dd3fc 100%)', color: '#f0f9ff' };
   }
-  // Day: 12-17
+  // Day: 12-17 (Soft Cyan/Teal)
   if (hour >= 12 && hour < 17) {
-    return { background: 'linear-gradient(90deg, #0284c7 0%, #22d3ee 100%)', color: '#f0f9ff' };
+    return { background: 'linear-gradient(180deg, #2dd4bf 0%, #5eead4 100%)', color: '#f0fdfa' };
   }
-  // Dusk: 17-20
+  // Dusk: 17-20 (Muted Peach/Coral)
   if (hour >= 17 && hour < 20) {
-    return { background: 'linear-gradient(90deg, #ea580c 0%, #db2777 100%)', color: '#fff7ed' };
+    return { background: 'linear-gradient(180deg, #fb923c 0%, #fdba74 100%)', color: '#fff7ed' };
   }
-  // Evening: 20-22
+  // Evening: 20-22 (Muted Purple/Indigo)
   if (hour >= 20 && hour < 22) {
-    return { background: 'linear-gradient(90deg, #4c1d95 0%, #312e81 100%)', color: '#f3e8ff' };
+    return { background: 'linear-gradient(180deg, #4f46e5 0%, #6366f1 100%)', color: '#e0e7ff' };
   }
 
-  return { background: '#1e293b', color: '#fff' };
+  return { background: '#334155', color: '#e2e8f0' };
 }

@@ -47,9 +47,10 @@
   }
 }
 
-/* Custom Scrollbar for the list */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -62,19 +63,19 @@
   background: hsl(215 15% 35%);
 }
 
-/* Time of day gradients - applied via style objects usually, but we can define some utility classes if needed */
-.gradient-dawn {
-  background: linear-gradient(135deg, #1c1938 0%, #4a2849 100%);
+.grain-texture {
+  position: relative;
 }
-.gradient-morning {
-  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-}
-.gradient-day {
-  background: linear-gradient(135deg, #2980b9 0%, #6dd5fa 100%);
-}
-.gradient-dusk {
-  background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
-}
-.gradient-night {
-  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+
+.grain-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion, Reorder, useDragControls } from 'framer-motion';
-import { GripVertical, Home, Trash2 } from 'lucide-react';
+import { Reorder, useDragControls } from 'framer-motion';
+import { GripHorizontal, Home, Trash2 } from 'lucide-react';
 import { Zone } from '@/lib/types';
 import { getLocalTime, formatTimeDisplay, formatDateDisplay, getTimeOffset, getGradientStyle } from '@/lib/time-utils';
 import { useStore } from '@/lib/store';
@@ -36,71 +36,73 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat }:
       value={zone}
       dragListener={false}
       dragControls={controls}
-      className="relative group overflow-hidden"
+      className="relative group h-full min-w-[320px] flex-1 border-r border-white/10 last:border-r-0"
     >
       <div 
         className={cn(
-          "flex items-center justify-between px-6 py-8 transition-all duration-300 select-none",
-          "hover:brightness-110"
+          "h-full flex flex-col justify-between p-8 transition-all duration-300 select-none grain-texture",
+          "hover:brightness-105"
         )}
         style={gradientStyle}
       >
-        <div className="flex items-center gap-4 z-10">
+        {/* Top Controls (Drag + Actions) */}
+        <div className="flex justify-between items-start opacity-0 group-hover:opacity-100 transition-opacity z-20">
           <div 
-            className="cursor-grab active:cursor-grabbing opacity-0 group-hover:opacity-50 transition-opacity"
+            className="cursor-grab active:cursor-grabbing p-2 hover:bg-white/10 rounded-md"
             onPointerDown={(e) => controls.start(e)}
           >
-            <GripVertical className="w-5 h-5" />
+            <GripHorizontal className="w-5 h-5 opacity-70" />
           </div>
           
-          <div className="flex flex-col">
-            <h2 className="text-3xl font-bold tracking-tight text-white/90 drop-shadow-sm">
-              {zone.label}
-            </h2>
-            <div className="flex items-center gap-2 text-white/70 font-medium mt-1">
-              <span>{formatDateDisplay(localTime)}</span>
-              {!isHome && (
-                <>
-                  <span className="w-1 h-1 rounded-full bg-white/50" />
-                  <span>{offset}</span>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-8 z-10">
-          <div className="text-right">
-             <div className="text-6xl font-mono font-medium text-white drop-shadow-md tracking-tighter tabular-nums">
-              {formatTimeDisplay(localTime, timeFormat === '24')}
-            </div>
-            <div className="text-sm font-medium text-white/60 uppercase tracking-widest mt-1">
-              {zone.ianaName.split('/')[1]?.replace(/_/g, ' ') || zone.ianaName}
-            </div>
-          </div>
-          
-          <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-4 group-hover:translate-x-0 duration-300">
+          <div className="flex gap-1">
             {!isHome && (
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setHomeZone(zone.id)}
-                className="text-white/60 hover:text-white hover:bg-white/10"
+                className="text-white/70 hover:text-white hover:bg-white/20 h-8 w-8"
                 title="Set as Home"
               >
-                <Home className="w-5 h-5" />
+                <Home className="w-4 h-4" />
               </Button>
             )}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => removeZone(zone.id)}
-              className="text-white/60 hover:text-red-300 hover:bg-red-500/20"
+              className="text-white/70 hover:text-red-200 hover:bg-red-500/20 h-8 w-8"
               title="Remove Zone"
             >
-              <Trash2 className="w-5 h-5" />
+              <Trash2 className="w-4 h-4" />
             </Button>
           </div>
+        </div>
+
+        {/* Content Centered */}
+        <div className="flex flex-col items-center justify-center gap-12 z-10 my-auto text-center">
+          
+          {/* City Name */}
+          <h2 className="text-5xl font-bold tracking-tight text-white/95 drop-shadow-sm leading-tight">
+            {zone.label}
+          </h2>
+
+          {/* Time */}
+          <div className="text-5xl font-mono font-medium text-white drop-shadow-md tracking-tighter tabular-nums">
+            {formatTimeDisplay(localTime, timeFormat === '24')}
+          </div>
+
+        </div>
+
+        {/* Footer Info */}
+        <div className="flex flex-col items-center gap-2 z-10 opacity-80">
+          <div className="text-lg font-medium">
+            {formatDateDisplay(localTime)}
+          </div>
+          {!isHome && (
+            <div className="text-sm font-semibold bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">
+              {offset}
+            </div>
+          )}
         </div>
       </div>
     </Reorder.Item>
