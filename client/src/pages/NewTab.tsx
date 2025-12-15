@@ -4,10 +4,9 @@ import { useStore } from '@/lib/store';
 import { ZoneRow } from '@/components/ZoneRow';
 import { AddZone } from '@/components/AddZone';
 import { Settings } from '@/components/Settings';
-import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { RotateCcw } from 'lucide-react';
-import { addMinutes, setHours, setMinutes } from 'date-fns';
+import { addMinutes } from 'date-fns';
 
 export function NewTab() {
   const zones = useStore((state) => state.zones);
@@ -35,30 +34,45 @@ export function NewTab() {
 
   // Handle planning time
   const referenceTime = isPlanning && planningTime ? new Date(planningTime) : now;
-  
-  // Slider logic (minutes from start of day)
-  const [sliderValue, setSliderValue] = useState([referenceTime.getHours() * 60 + referenceTime.getMinutes()]);
-
-  const handleSliderChange = (val: number[]) => {
-    if (!isPlanning) {
-      togglePlanning(true);
-    }
-    const minutes = val[0];
-    const newDate = new Date(now); // Base it on "today"
-    newDate.setHours(Math.floor(minutes / 60));
-    newDate.setMinutes(minutes % 60);
-    setPlanningTime(newDate.getTime());
-    setSliderValue(val);
-  };
 
   const handleReset = () => {
     resetPlanning();
     setNow(new Date());
-    setSliderValue([new Date().getHours() * 60 + new Date().getMinutes()]);
   };
 
+  // Scroll to plan logic
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      // Prevent default scrolling behavior
+      // But only if we are scrolling vertically? 
+      // Actually, since we want to hijack scroll for time, we should probably prevent default.
+      // However, if the user has many zones and they overflow horizontally (though we tried to fit them),
+      // we might block horizontal scrolling if we aren't careful.
+      // The user said "fit inside the view port", so we assume no scroll needed for layout.
+      
+      e.preventDefault();
+      
+      if (!isPlanning) {
+        togglePlanning(true);
+        // Start from current time
+        const currentRef = now.getTime();
+        const deltaMinutes = e.deltaY > 0 ? 15 : -15; // 15 min increments
+        setPlanningTime(addMinutes(new Date(currentRef), deltaMinutes).getTime());
+      } else if (planningTime) {
+        // Adjust existing planning time
+        // Use a divisor to control sensitivity
+        const deltaMinutes = e.deltaY > 0 ? 15 : -15; 
+        setPlanningTime(addMinutes(new Date(planningTime), deltaMinutes).getTime());
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, [isPlanning, planningTime, now, togglePlanning, setPlanningTime]);
+
+
   return (
-    <div className="h-screen bg-slate-950 flex flex-col overflow-hidden">
+    <div className="h-screen bg-slate-950 flex flex-col overflow-hidden relative">
       {/* Main Content Area - Full viewport flex container */}
       <div className="flex-1 min-h-0 w-full p-6">
         <Reorder.Group 
@@ -87,45 +101,31 @@ export function NewTab() {
       </div>
 
       {/* Floating Action Controls */}
-      <div className="fixed bottom-24 right-8 flex flex-col gap-4 z-50">
+      <div className="fixed bottom-8 right-8 flex flex-col gap-4 z-50">
+        {isPlanning && (
+             <Button 
+               variant="default" 
+               size="icon"
+               onClick={handleReset}
+               className="rounded-full w-12 h-12 bg-blue-600 hover:bg-blue-500 text-white shadow-lg animate-in fade-in zoom-in duration-300"
+               title="Reset to Live Time"
+             >
+               <RotateCcw className="w-5 h-5" />
+             </Button>
+        )}
         <AddZone />
       </div>
 
       <div className="fixed top-8 right-8 z-50">
         <Settings />
       </div>
-
-      {/* Planning Slider Footer */}
-      <div className="sticky bottom-0 bg-slate-900/90 backdrop-blur-md border-t border-white/10 p-6 z-40">
-        <div className="max-w-4xl mx-auto flex items-center gap-6">
-          <div className="flex-1">
-             <Slider
-              value={sliderValue}
-              min={0}
-              max={1440} // 24 * 60
-              step={15}
-              onValueChange={handleSliderChange}
-              className="cursor-pointer"
-            />
-          </div>
-          
-          {isPlanning && (
-             <Button 
-               variant="outline" 
-               size="sm"
-               onClick={handleReset}
-               className="gap-2 bg-blue-600 border-transparent hover:bg-blue-500 text-white"
-             >
-               <RotateCcw className="w-4 h-4" />
-               Reset
-             </Button>
-          )}
-          
-          <div className="w-24 text-right font-mono text-slate-400 text-sm">
-             {isPlanning ? 'Planning' : 'Live'}
-          </div>
+      
+      {/* Hint for scrolling */}
+      {!isPlanning && zones.length > 0 && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 text-white/30 text-sm font-medium animate-pulse pointer-events-none">
+          Scroll to plan
         </div>
-      </div>
+      )}
     </div>
   );
 }

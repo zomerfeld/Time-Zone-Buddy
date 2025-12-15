@@ -77,8 +77,20 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat }:
 
         {/* Content: Time (Absolute Center) */}
         <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
-          <div className="text-3xl md:text-5xl lg:text-6xl font-mono font-medium text-white drop-shadow-md tracking-tighter tabular-nums text-center">
-            {formatTimeDisplay(localTime, timeFormat === '24')}
+          <div className="flex items-baseline gap-1.5 text-white drop-shadow-md tracking-tighter tabular-nums text-center">
+            {(() => {
+              const timeStr = formatTimeDisplay(localTime, timeFormat === '24');
+              if (timeFormat === '24') {
+                return <span className="text-3xl md:text-5xl lg:text-6xl font-mono font-medium">{timeStr}</span>;
+              }
+              const [time, period] = timeStr.split(' ');
+              return (
+                <>
+                  <span className="text-3xl md:text-5xl lg:text-6xl font-mono font-medium">{time}</span>
+                  <span className="text-lg md:text-2xl font-medium opacity-60 uppercase">{period}</span>
+                </>
+              );
+            })()}
           </div>
            {!isHome && (
             <div className="absolute top-1/2 mt-10 md:mt-14 text-xs md:text-sm font-semibold bg-white/20 px-2 py-0.5 rounded-full backdrop-blur-sm">
