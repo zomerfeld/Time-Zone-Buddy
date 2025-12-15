@@ -75,13 +75,13 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat }:
             </div>
         </div>
 
-        {/* Content: Time (Top Aligned) */}
-        <div className="flex-1 flex flex-col items-center justify-start pt-16 md:pt-24 z-10">
+        {/* Content: Time (Centered, with Offset floating below) */}
+        <div className="flex-1 flex flex-col items-center justify-center z-10 relative">
           <div className="text-3xl md:text-5xl lg:text-6xl font-mono font-medium text-white drop-shadow-md tracking-tighter tabular-nums text-center">
             {formatTimeDisplay(localTime, timeFormat === '24')}
           </div>
            {!isHome && (
-            <div className="mt-2 text-xs md:text-sm font-semibold bg-white/20 px-2 py-0.5 rounded-full backdrop-blur-sm">
+            <div className="absolute top-1/2 mt-10 md:mt-14 text-xs md:text-sm font-semibold bg-white/20 px-2 py-0.5 rounded-full backdrop-blur-sm">
               {offset}
             </div>
           )}
