@@ -109,7 +109,7 @@ export const useStore = create<AppState & Actions>()(
       resetPlanning: () => set({ isPlanning: false, planningTime: null }),
     }),
     {
-      name: 'fio-clone-storage',
+      name: 'timezone-planner-storage',
       storage: cookieStorage,
       partialize: (state) => ({
         zones: state.zones,
