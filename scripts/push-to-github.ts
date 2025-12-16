@@ -13,7 +13,8 @@ async function getAllFiles(dir: string, baseDir: string = dir): Promise<{ path: 
     const fullPath = path.join(dir, entry.name);
     const relativePath = path.relative(baseDir, fullPath);
 
-    if (entry.name.startsWith('.') || entry.name === 'node_modules' || entry.name === '.git' || entry.name === 'attached_assets' || entry.name === 'scripts') {
+    const excluded = ['.', 'node_modules', '.git', 'attached_assets', 'scripts', 'dist', 'server/public', '.DS_Store'];
+    if (entry.name.startsWith('.') || excluded.includes(entry.name) || entry.name.endsWith('.tar.gz')) {
       continue;
     }
 
