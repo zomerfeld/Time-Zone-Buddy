@@ -13,7 +13,7 @@ async function getAllFiles(dir: string, baseDir: string = dir): Promise<{ path: 
     const fullPath = path.join(dir, entry.name);
     const relativePath = path.relative(baseDir, fullPath);
 
-    if (entry.name.startsWith('.') || entry.name === 'node_modules' || entry.name === '.git') {
+    if (entry.name.startsWith('.') || entry.name === 'node_modules' || entry.name === '.git' || entry.name === 'attached_assets') {
       continue;
     }
 
