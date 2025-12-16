@@ -2,7 +2,7 @@
 
 ## Overview
 
-A privacy-preserving Chrome extension that overrides the New Tab page with a visual, color-coded time zone planner. It displays multiple time zones with color gradients based on time of day, supports drag-to-reorder, and includes a scroll-to-plan feature for coordinating meetings across time zones. All data stays local in the browser with no external API calls or tracking.
+A privacy-preserving Chrome extension that overrides the New Tab page with a visual, color-coded time zone planner. Built as a clone of "Figure it Out (FIO)", it displays multiple time zones with color gradients based on time of day, supports drag-to-reorder, and includes a scroll-to-plan feature for coordinating meetings across time zones. All data stays local in the browser with no external API calls or tracking.
 
 ## User Preferences
 
