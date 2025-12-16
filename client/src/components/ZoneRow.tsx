@@ -119,13 +119,13 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, o
           )}
           style={gradientStyle}
         >
-          {/* Mobile Row Layout - 3 aligned columns */}
-          <div className="absolute inset-0 flex items-center px-4">
-            {/* Left: City Info - fixed width */}
-            <div className="flex flex-col items-start w-[110px] flex-shrink-0">
+          {/* Mobile Row Layout - 3 evenly distributed columns */}
+          <div className="absolute inset-0 flex items-center justify-between px-4">
+            {/* Left: City Info */}
+            <div className="flex flex-col items-start flex-1">
               <div className="flex items-center gap-1">
                 {isHome && <Home className="w-3 h-3 text-white/90 flex-shrink-0" />}
-                <h2 className="text-sm font-bold tracking-tight text-white/95 leading-tight truncate">
+                <h2 className="text-sm font-bold tracking-tight text-white/95 leading-tight truncate max-w-[100px]">
                   {zone.label}
                 </h2>
               </div>
@@ -137,8 +137,8 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, o
               </div>
             </div>
 
-            {/* Center: Controls - fixed width */}
-            <div className="flex gap-1 items-center justify-center w-[100px] flex-shrink-0">
+            {/* Center: Controls */}
+            <div className="flex gap-1 items-center justify-center flex-1">
               {!isHome && (
                 <Button
                   variant="ghost"
@@ -167,7 +167,7 @@ export const ZoneRow = ({ zone, referenceTime, isHome, isPlanning, timeFormat, o
               </div>
             </div>
 
-            {/* Right: Time - takes remaining space, right-aligned */}
+            {/* Right: Time */}
             <div className="flex flex-col items-end flex-1">
               {isEditing ? (
                 <input
