@@ -103,12 +103,12 @@ export function NewTab() {
   return (
     <div className="h-screen bg-slate-950 flex flex-col overflow-hidden relative">
       {/* Main Content Area - Full viewport flex container */}
-      <div className={`flex-1 min-h-0 w-full ${isMobile ? 'p-2 overflow-y-auto' : 'p-6'}`}>
+      <div className={`flex-1 min-h-0 w-full ${isMobile ? 'p-2' : 'p-6'}`}>
         <Reorder.Group 
           axis={isMobile ? "y" : "x"} 
           values={zones} 
           onReorder={reorderZones} 
-          className={isMobile ? "flex flex-col h-auto w-full gap-2" : "flex h-full w-full gap-0.5"}
+          className={isMobile ? "flex flex-col h-full w-full gap-1" : "flex h-full w-full gap-0.5"}
         >
           {zones.map((zone) => (
             <ZoneRow
