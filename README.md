@@ -1,7 +1,5 @@
 # Time Zone Planner
 
-A minimal, privacy-preserving Chrome extension for viewing multiple time zones.
-This extension overrides your New Tab page with a beautiful, color-coded view of your selected time zones.
 
 ## Features
 
