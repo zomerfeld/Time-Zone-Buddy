@@ -1,7 +1,4 @@
-# FIO Clone - Local Time Zone Planner
-
-A minimal, privacy-preserving clone of "Figure it Out" for Chrome.
-This extension overrides your New Tab page with a beautiful, color-coded view of your selected time zones.
+Local Time Zone Planner
 
 ## Features
 
